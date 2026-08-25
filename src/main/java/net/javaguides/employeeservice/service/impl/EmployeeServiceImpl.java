@@ -5,6 +5,7 @@ import net.javaguides.employeeservice.dto.EmployeeDto;
 import net.javaguides.employeeservice.entity.Employee;
 import net.javaguides.employeeservice.repository.EmployeeRepository;
 import net.javaguides.employeeservice.service.EmployeeService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,24 +22,16 @@ import org.springframework.stereotype.Service;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public EmployeeDto create(final EmployeeDto employeeDto) {
 
-        final Employee employee = Employee.builder()
-                .firstName(employeeDto.getFirstName())
-                .lastName(employeeDto.getLastName())
-                .email(employeeDto.getEmail())
-                .build();
+        final Employee employee = modelMapper.map(employeeDto, Employee.class);
 
         final Employee savedEmployee = employeeRepository.save(employee);
 
-        return EmployeeDto.builder()
-                .id(savedEmployee.getId())
-                .firstName(savedEmployee.getFirstName())
-                .lastName(savedEmployee.getLastName())
-                .email(savedEmployee.getEmail())
-                .build();
+        return modelMapper.map(savedEmployee, EmployeeDto.class);
     }
 
     @Override
@@ -47,12 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         final Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + employeeId));
 
-        return EmployeeDto.builder()
-                .id(employee.getId())
-                .firstName(employee.getFirstName())
-                .lastName(employee.getLastName())
-                .email(employee.getEmail())
-                .build();
+        return modelMapper.map(employee,EmployeeDto.class);
     }
 
 }
