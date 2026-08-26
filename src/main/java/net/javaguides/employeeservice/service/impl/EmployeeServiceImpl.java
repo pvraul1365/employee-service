@@ -7,6 +7,7 @@ import net.javaguides.employeeservice.dto.EmployeeDto;
 import net.javaguides.employeeservice.entity.Employee;
 import net.javaguides.employeeservice.exception.ResourceNotFoundException;
 import net.javaguides.employeeservice.repository.EmployeeRepository;
+import net.javaguides.employeeservice.service.APIClient;
 import net.javaguides.employeeservice.service.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
+    private final APIClient apiClient;
 //    private final RestTemplate restTemplate;
-    private final WebClient webClient;
+//    private final WebClient webClient;
 
     @Override
     public EmployeeDto create(final EmployeeDto employeeDto) {
@@ -48,11 +50,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         final Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId));
 
-        final DepartmentDto departmentDto = webClient.get()
-                .uri("http://localhost:8080/api/departments/{id}", employee.getDepartmentCode())
-                .retrieve()
-                .bodyToMono(DepartmentDto.class)
-                .block();
+//         final DepartmentDto departmentDto = webClient.get()
+//                .uri("http://localhost:8080/api/departments/{id}", employee.getDepartmentCode())
+//                .retrieve()
+//                .bodyToMono(DepartmentDto.class)
+//                .block();
+
+        final DepartmentDto departmentDto = apiClient.getDepartmentByCode(employee.getDepartmentCode());
         
         final APIResponseDto apiResponseDto = APIResponseDto.builder()
                 .employee(modelMapper.map(employee, EmployeeDto.class))
