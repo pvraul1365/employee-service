@@ -6,24 +6,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * EmployeeDto
+ * APIResponseDto
  * <p>
  * Created by IntelliJ, Spring Framework Guru.
  *
  * @author architecture - pvraul
- * @version 24/08/2026 - 14:38
+ * @version 26/08/2026 - 09:08
  * @since 1.17
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeeDto {
+public class APIResponseDto {
 
-    private Long id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String departmentCode;
+    private EmployeeDto employee;
+    private DepartmentDto department;
 
 }

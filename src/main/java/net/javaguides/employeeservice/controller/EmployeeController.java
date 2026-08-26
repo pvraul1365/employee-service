@@ -2,6 +2,7 @@ package net.javaguides.employeeservice.controller;
 
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
+import net.javaguides.employeeservice.dto.APIResponseDto;
 import net.javaguides.employeeservice.dto.EmployeeDto;
 import net.javaguides.employeeservice.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
@@ -37,10 +38,10 @@ public class EmployeeController {
     }
 
     @GetMapping("/{employeeId}")
-    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable final Long employeeId) {
-        final EmployeeDto employeeDto = employeeService.getEmployeeById(employeeId);
+    public ResponseEntity<APIResponseDto> getEmployeeById(@PathVariable final Long employeeId) {
+        final APIResponseDto apiResponseDto = employeeService.getEmployeeById(employeeId);
 
-        return ResponseEntity.ok(employeeDto);
+        return ResponseEntity.ok(apiResponseDto);
     }
 
 }
